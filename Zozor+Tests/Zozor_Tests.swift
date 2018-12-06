@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Zozor_
+@testable import Zozor
 
 class Zozor_Tests: XCTestCase {
     
