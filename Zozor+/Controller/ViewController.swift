@@ -10,13 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
    // MARK: - Properties
-   var stringNumbers: [String] = [String()]
-   var operators: [String] = ["+"]
-   var index = 0
+   var operations = Operations()
    var isExpressionCorrect: Bool {
-      if let stringNumber = stringNumbers.last {
+      if let stringNumber = operations.stringNumbers.last {
          if stringNumber.isEmpty {
-            if stringNumbers.count == 1 {
+            if operations.stringNumbers.count == 1 {
                let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                self.present(alertVC, animated: true, completion: nil)
@@ -30,9 +28,8 @@ class ViewController: UIViewController {
       }
       return true
    }
-   
    var canAddOperator: Bool {
-      if let stringNumber = stringNumbers.last {
+      if let stringNumber = operations.stringNumbers.last {
          if stringNumber.isEmpty {
             let alertVC = UIAlertController(title: "Zéro!", message: "Expression incorrecte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -54,7 +51,7 @@ class ViewController: UIViewController {
    @IBAction func tappedNumberButton(_ sender: UIButton) {
       for (i, numberButton) in numberButtons.enumerated() {
          if sender == numberButton {
-            addNewNumber(i)
+            textView.text = "\(operations.addNewNumber(i))"
          }
       }
    }
@@ -77,9 +74,9 @@ class ViewController: UIViewController {
    
    func operation(operatorSymbol: String, on button: UIButton){
       if canAddOperator {
-         operators.append(operatorSymbol)
-         stringNumbers.append("")
-         updateDisplay()
+         operations.operators.append(operatorSymbol)
+         operations.stringNumbers.append("")
+         textView.text = "\(operations.updateDisplay())"
       }
    }
    
@@ -88,62 +85,15 @@ class ViewController: UIViewController {
    }
    
    @IBAction func equal() {
-      calculateTotal()
+      operations.calculateTotal()
    }
-   
    
    // MARK: - Methods
-   
-   func addNewNumber(_ newNumber: Int) {
-      if let stringNumber = stringNumbers.last {
-         var stringNumberMutable = stringNumber
-         stringNumberMutable += "\(newNumber)"
-         stringNumbers[stringNumbers.count-1] = stringNumberMutable
-      }
-      updateDisplay()
-   }
-   
-   func calculateTotal() {
+   func chekcCalculateTotal() {
       if !isExpressionCorrect {
          return
       }
-      
-      var total:Float = 0
-      for (i, stringNumber) in stringNumbers.enumerated() {
-         if let number = Float(stringNumber) {
-            if operators[i] == "+" {
-               total += number
-            } else if operators[i] == "-" {
-               total -= number
-            } else if operators[i] == "÷" {
-               total /= number
-            } else if operators[i] == "×" {
-               total *= number
-            }
-         }
-      }
-      
-      textView.text = "\(total)"
-      
-      clear()
+      textView.text = "\(operations.calculateTotal)"
    }
    
-   func updateDisplay() {
-      var text = ""
-      for (i, stringNumber) in stringNumbers.enumerated() {
-         // Add operator
-         if i > 0 {
-            text += operators[i]
-         }
-         // Add number
-         text += stringNumber
-      }
-      textView.text = text
-   }
-   
-   func clear() {
-      stringNumbers = [String()]
-      operators = ["+"]
-      index = 0
-   }
 }
