@@ -15,11 +15,13 @@ class ViewController: UIViewController {
       if let stringNumber = operations.stringNumbers.last {
          if stringNumber.isEmpty {
             if operations.stringNumbers.count == 1 {
-               let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
+               let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !",
+                                               preferredStyle: .alert)
                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                self.present(alertVC, animated: true, completion: nil)
             } else {
-               let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
+               let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !",
+                                               preferredStyle: .alert)
                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                self.present(alertVC, animated: true, completion: nil)
             }
@@ -39,55 +41,40 @@ class ViewController: UIViewController {
       }
       return true
    }
-   
-   
    // MARK: - Outlets
-   
    @IBOutlet weak var textView: UITextView!
    @IBOutlet var numberButtons: [UIButton]!
-   
    // MARK: - Action
-   
    @IBAction func tappedNumberButton(_ sender: UIButton) {
-      for (i, numberButton) in numberButtons.enumerated() {
-         if sender == numberButton {
-            textView.text = "\(operations.addNewNumber(i))"
-         }
+      for (nmbr, numberButton) in numberButtons.enumerated() where sender == numberButton {
+         textView.text = "\(operations.addNewNumber(nmbr))"
       }
    }
-   
-   @IBAction func plus(_ sender:UIButton){
+   @IBAction func plus(_ sender: UIButton) {
       operation(operatorSymbol: "+", on: sender)
    }
-   
-   @IBAction func minus(_ sender:UIButton){
+   @IBAction func minus(_ sender: UIButton) {
       operation(operatorSymbol: "-", on: sender)
    }
-   
-   @IBAction func divide(_ sender:UIButton){
+   @IBAction func divide(_ sender: UIButton) {
       operation(operatorSymbol: "÷", on: sender)
    }
-   
-   @IBAction func mutliply(_ sender:UIButton){
+   @IBAction func mutliply(_ sender: UIButton) {
       operation(operatorSymbol: "×", on: sender)
    }
-   
-   func operation(operatorSymbol: String, on button: UIButton){
+   func operation(operatorSymbol: String, on button: UIButton) {
       if canAddOperator {
          operations.operators.append(operatorSymbol)
          operations.stringNumbers.append("")
          textView.text = "\(operations.updateDisplay())"
       }
    }
-   
    @IBAction func reset(_ sender: UIButton) {
       textView.text = ""
    }
-   
    @IBAction func equal() {
       operations.calculateTotal()
    }
-   
    // MARK: - Methods
    func chekcCalculateTotal() {
       if !isExpressionCorrect {
@@ -95,5 +82,4 @@ class ViewController: UIViewController {
       }
       textView.text = "\(operations.calculateTotal)"
    }
-   
 }

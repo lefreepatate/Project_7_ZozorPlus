@@ -8,28 +8,28 @@
 
 import Foundation
 class Operations {
+   // MARK: - PROPERTIES
    var stringNumbers: [String] = [String()]
    var operators: [String] = ["+"]
    var index = 0
-   
+   // MARK: - METHODS
    func calculateTotal() {
-      var total:Float = 0
-      for (i, stringNumber) in stringNumbers.enumerated() {
+      var total: Float = 0
+      for (nmbr, stringNumber) in stringNumbers.enumerated() {
          if let number = Float(stringNumber) {
-            if operators[i] == "+" {
+            if operators[nmbr] == "+" {
                total += number
-            } else if operators[i] == "-" {
+            } else if operators[nmbr] == "-" {
                total -= number
-            } else if operators[i] == "÷" {
+            } else if operators[nmbr] == "÷" {
                total /= number
-            } else if operators[i] == "×" {
+            } else if operators[nmbr] == "×" {
                total *= number
             }
          }
       }
       clear()
    }
-   
    func addNewNumber(_ newNumber: Int) -> String {
       if let stringNumber = stringNumbers.last {
          var stringNumberMutable = stringNumber
@@ -38,20 +38,18 @@ class Operations {
       }
       return updateDisplay()
    }
-   
    func updateDisplay() -> String {
       var text = ""
-      for (i, stringNumber) in stringNumbers.enumerated() {
+      for (nmbr, stringNumber) in stringNumbers.enumerated() {
          // Add operator
-         if i > 0 {
-            text += operators[i]
+         if nmbr > 0 {
+            text += operators[nmbr]
          }
          // Add number
          text += stringNumber
       }
       return text
    }
-   
    func clear() {
       stringNumbers = [String()]
       operators = ["+"]
