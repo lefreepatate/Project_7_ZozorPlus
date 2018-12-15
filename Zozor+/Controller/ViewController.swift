@@ -62,13 +62,6 @@ class ViewController: UIViewController {
    @IBAction func mutliply(_ sender: UIButton) {
       operation(operatorSymbol: "×", on: sender)
    }
-   func operation(operatorSymbol: String, on button: UIButton) {
-      if canAddOperator {
-         operations.operators.append(operatorSymbol)
-         operations.stringNumbers.append("")
-         textView.text = "\(operations.updateDisplay())"
-      }
-   }
    @IBAction func reset(_ sender: UIButton) {
       textView.text = "0"
    }
@@ -77,6 +70,13 @@ class ViewController: UIViewController {
       checkCalculateTotal()
    }
    // MARK: - Methods
+   func operation(operatorSymbol: String, on button: UIButton) {
+      if canAddOperator {
+         operations.operators.append(operatorSymbol)
+         operations.stringNumbers.append("")
+         textView.text = "\(operations.updateDisplay())"
+      }
+   }
    func checkCalculateTotal() {
       if !isExpressionCorrect {
          return

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 class Operations {
    // MARK: - PROPERTIES
    var stringNumbers: [String] = [String()]
