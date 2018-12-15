@@ -13,7 +13,7 @@ class Operations {
    var operators: [String] = ["+"]
    var index = 0
    // MARK: - METHODS
-   func calculateTotal() {
+   func calculateTotal() -> Float {
       var total: Float = 0
       for (nmbr, stringNumber) in stringNumbers.enumerated() {
          if let number = Float(stringNumber) {
@@ -29,6 +29,7 @@ class Operations {
          }
       }
       clear()
+      return total
    }
    func addNewNumber(_ newNumber: Int) -> String {
       if let stringNumber = stringNumbers.last {
@@ -36,7 +37,7 @@ class Operations {
          stringNumberMutable += "\(newNumber)"
          stringNumbers[stringNumbers.count-1] = stringNumberMutable
       }
-      return updateDisplay()
+      return "\(updateDisplay())"
    }
    func updateDisplay() -> String {
       var text = ""

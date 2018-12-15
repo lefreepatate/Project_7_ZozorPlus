@@ -70,16 +70,17 @@ class ViewController: UIViewController {
       }
    }
    @IBAction func reset(_ sender: UIButton) {
-      textView.text = ""
+      textView.text = "0"
    }
-   @IBAction func equal() {
-      operations.calculateTotal()
+   @IBAction func equal(_ sender: UIButton) {
+      textView.text = ""
+      checkCalculateTotal()
    }
    // MARK: - Methods
-   func chekcCalculateTotal() {
+   func checkCalculateTotal() {
       if !isExpressionCorrect {
          return
       }
-      textView.text = "\(operations.calculateTotal)"
+      textView.text += "\(operations.calculateTotal())"
    }
 }
