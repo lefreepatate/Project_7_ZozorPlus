@@ -11,23 +11,51 @@ import XCTest
 
 class OperationsTestCase: XCTestCase {
    var operations: Operations!
-   var text = " "
+   var text = ""
    override func setUp() {
       super.setUp()
       operations = Operations()
    }
+   func setNewNumber(_ newNumber: Int) {
+      text = "\(operations.addNewNumber(newNumber))"
+   }
+   func setOperatorValue(_ operatorSymbol: String) {
+      operations.operators.append(operatorSymbol)
+      operations.stringNumbers.append("")
+      text = operations.updateDisplay()
+   }
+   func setCalculateTotal() {
+      text = "\(operations.calculateTotal())"
+   }
+   // MARK: - TEST DDB
    func testGivenTextIsNull_WhenIncrementingNumber5_ThenTextIs5() {
-      text = "\(operations.addNewNumber(5))"
-      text = "\(operations.updateDisplay())"
+      text = ""
+      // When
+      setNewNumber(5)
       // Then
-      XCTAssert(text == "5")
+      XCTAssertEqual(text, "5")
    }
    func testGivenTextIs5_WhenIncrementingOperatorX_ThenTextIs5X() {
-      text = "5"
-      // When
-      text = "\(operations.operators = ["×"])"
-      text = "\(operations.updateDisplay())"
+      setNewNumber(5)
+      //When
+      setOperatorValue("×")
       // Then
-      XCTAssert(text == "5×")
+      XCTAssertEqual(text, "5×")
+   }
+   func testGivenTextIs5_WhenIncrementingX5_ThenTextIs5X5() {
+      setNewNumber(5)
+      //When
+      setOperatorValue("×")
+      setNewNumber(5)
+      // Then
+      XCTAssertEqual(text, "5×5")
+   }
+   func testGivenTextIs5X5_WhenIncrementingTotal_ThenTextIs25() {
+      setNewNumber(5)
+      //When
+      setOperatorValue("×")
+      setNewNumber(5)
+      // Then
+      XCTAssertEqual(operations.calculateTotal(), 25)
    }
 }

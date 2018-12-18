@@ -10,21 +10,21 @@ import Foundation
 
 class Operations {
    // MARK: - PROPERTIES
-   var stringNumbers: [String] = [String()]
-   var operators: [String] = ["+"]
+   var stringNumbers = [String()]
+   var operators = ["+"]
    var index = 0
    // MARK: - METHODS
    func calculateTotal() -> Float {
       var total: Float = 0
-      for (nmbr, stringNumber) in stringNumbers.enumerated() {
+      for (opr, stringNumber) in stringNumbers.enumerated() {
          if let number = Float(stringNumber) {
-            if operators[nmbr] == "+" {
+            if operators[opr] == "+" {
                total += number
-            } else if operators[nmbr] == "-" {
+            } else if operators[opr] == "-" {
                total -= number
-            } else if operators[nmbr] == "÷" {
+            } else if operators[opr] == "÷" {
                total /= number
-            } else if operators[nmbr] == "×" {
+            } else if operators[opr] == "×" {
                total *= number
             }
          }
@@ -42,10 +42,10 @@ class Operations {
    }
    func updateDisplay() -> String {
       var text = ""
-      for (nmbr, stringNumber) in stringNumbers.enumerated() {
+      for (opr, stringNumber) in stringNumbers.enumerated() {
          // Add operator
-         if nmbr > 0 {
-            text += operators[nmbr]
+         if opr > 0 {
+            text += operators[opr]
          }
          // Add number
          text += stringNumber

@@ -66,8 +66,10 @@ class ViewController: UIViewController {
       textView.text = "0"
    }
    @IBAction func equal(_ sender: UIButton) {
-      textView.text = ""
-      checkCalculateTotal()
+      if !isExpressionCorrect {
+         return
+      }
+      textView.text = "\(operations.calculateTotal())"
    }
    // MARK: - Methods
    func operation(operatorSymbol: String, on button: UIButton) {
@@ -76,11 +78,5 @@ class ViewController: UIViewController {
          operations.stringNumbers.append("")
          textView.text = "\(operations.updateDisplay())"
       }
-   }
-   func checkCalculateTotal() {
-      if !isExpressionCorrect {
-         return
-      }
-      textView.text += "\(operations.calculateTotal())"
    }
 }
