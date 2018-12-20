@@ -25,28 +25,6 @@ class OperationsTestCase: XCTestCase {
       text = operations.updateDisplay()
    }
    // MARK: - TEST DDB
-   func testGivenTextIsNull_WhenIncrementingNumber5_ThenTextIs5() {
-      text = ""
-      // When
-      setNewNumber(5)
-      // Then
-      XCTAssertEqual(text, "5")
-   }
-   func testGivenTextIs5_WhenIncrementingOperatorX_ThenTextIs5X() {
-      setNewNumber(5)
-      //When
-      setOperatorValue("×")
-      // Then
-      XCTAssertEqual(text, "5×")
-   }
-   func testGivenTextIs5_WhenIncrementingMultiply5_ThenTextIs5X5() {
-      setNewNumber(5)
-      //When
-      setOperatorValue("×")
-      setNewNumber(5)
-      // Then
-      XCTAssertEqual(text, "5×5")
-   }
    func testGivenTextIs50_WhenIncrementingPlus45_ThenTotalIs95() {
       setNewNumber(5)
       setNewNumber(0)
