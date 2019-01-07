@@ -14,6 +14,7 @@ class Operations {
    var operators = ["+"]
    var index = 0
    // MARK: - METHODS
+   // operations
    func calculateTotal() -> Float {
       var total: Float = 0
       for (opr, stringNumber) in stringNumbers.enumerated() {
@@ -32,6 +33,7 @@ class Operations {
       clear()
       return total
    }
+   // Adding new number to the operant
    func addNewNumber(_ newNumber: Int) -> String {
       if let stringNumber = stringNumbers.last {
          var stringNumberMutable = stringNumber
@@ -40,6 +42,7 @@ class Operations {
       }
       return "\(updateDisplay())"
    }
+   // Getting string to update the calculator display
    func updateDisplay() -> String {
       var text = ""
       for (opr, stringNumber) in stringNumbers.enumerated() {
@@ -52,6 +55,7 @@ class Operations {
       }
       return text
    }
+   // Clearing the display 
    func clear() {
       stringNumbers = [String()]
       operators = ["+"]

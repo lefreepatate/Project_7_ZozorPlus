@@ -16,15 +16,18 @@ class OperationsTestCase: XCTestCase {
       super.setUp()
       operations = Operations()
    }
+   // Setting number for testing Model
    func setNewNumber(_ newNumber: Int) {
       text = "\(operations.addNewNumber(newNumber))"
    }
+   // Setting operator for testing Model
    func setOperatorValue(_ operatorSymbol: String) {
       operations.operators.append(operatorSymbol)
       operations.stringNumbers.append("")
       text = operations.updateDisplay()
    }
    // MARK: - TEST DDB
+   // PLUS TEST
    func testGivenTextIs50_WhenIncrementingPlus45_ThenTotalIs95() {
       setNewNumber(5)
       setNewNumber(0)
@@ -34,6 +37,7 @@ class OperationsTestCase: XCTestCase {
       // Then
       XCTAssertEqual(operations.calculateTotal(), 95)
    }
+   // MINUS TEST
    func testGivenTextIs4_WhenIncrementingMinus5_ThenTotalIsNegative1() {
       setNewNumber(4)
       //When
@@ -42,6 +46,7 @@ class OperationsTestCase: XCTestCase {
       // Then
       XCTAssertEqual(operations.calculateTotal(), -1)
    }
+   // MULTIPLY TEST
    func testGivenTextIs5_WhenIncrementingMultiply5_ThenTotalIs25() {
       setNewNumber(5)
       //When
@@ -50,6 +55,7 @@ class OperationsTestCase: XCTestCase {
       // Then
       XCTAssertEqual(operations.calculateTotal(), 25)
    }
+   // DIVIDE TEST
    func testGivenTextIs30_WhenIncrementingDivide5_ThenTotalIs6() {
       setNewNumber(3)
       setNewNumber(0)
@@ -59,6 +65,7 @@ class OperationsTestCase: XCTestCase {
       // Then
       XCTAssertEqual(operations.calculateTotal(), 6)
    }
+   // FLOAT TEST
    func testGivenTextIs50_WhenIncrementingDivide63_ThenTotalIsFloat() {
       setNewNumber(5)
       setNewNumber(0)
