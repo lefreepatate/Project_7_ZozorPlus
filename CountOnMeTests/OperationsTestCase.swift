@@ -24,56 +24,168 @@ class OperationsTestCase: XCTestCase {
    func setOperatorValue(_ operatorSymbol: String) {
       operations.operators.append(operatorSymbol)
       operations.stringNumbers.append("")
-      text = operations.updateDisplay()
    }
    // MARK: - TEST DDB
+   // MARK: - OPERATIONS
    // PLUS TEST
    func testGivenTextIs50_WhenIncrementingPlus45_ThenTotalIs95() {
+      //Given
       setNewNumber(5)
       setNewNumber(0)
       //When
       setOperatorValue("+")
       setNewNumber(45)
       // Then
-      XCTAssertEqual(operations.calculateTotal(), 95)
+      XCTAssertEqual(try operations.calculateTotal(), 95)
    }
    // MINUS TEST
    func testGivenTextIs4_WhenIncrementingMinus5_ThenTotalIsNegative1() {
+      //Given
       setNewNumber(4)
       //When
       setOperatorValue("-")
       setNewNumber(5)
       // Then
-      XCTAssertEqual(operations.calculateTotal(), -1)
+      XCTAssertEqual(try operations.calculateTotal(), -1)
    }
-   // MULTIPLY TEST
-   func testGivenTextIs5_WhenIncrementingMultiply5_ThenTotalIs25() {
-      setNewNumber(5)
+   // MINUS - PLUS TEST
+   func testGivenTextIs45_WhenIncrementingMinus50Plus56_ThenTotalIs51() {
+      //Given
+      setNewNumber(45)
       //When
-      setOperatorValue("×")
+      setOperatorValue("-")
+      setNewNumber(50)
+      setOperatorValue("+")
+      setNewNumber(56)
+      // Then
+      XCTAssertEqual(try operations.calculateTotal(), 51)
+   }
+   // PLUS - MINUS TEST
+   func testGivenTextIs80_WhenIncrementingPlus70Minus150_ThenTotalIsZero() {
+      //Given
+      setNewNumber(80)
+      //When
+      setOperatorValue("+")
+      setNewNumber(70)
+      setOperatorValue("-")
+      setNewNumber(150)
+      // Then
+      XCTAssertEqual(try operations.calculateTotal(), 0)
+   }
+   // MARK: - AddOperator TEST
+   // Adding +
+   func testGivenTextIsNil_WhenIncrementing5Plus_ThenAddOperatorPlus() {
+      //Given
+      //When
       setNewNumber(5)
       // Then
-      XCTAssertEqual(operations.calculateTotal(), 25)
+      XCTAssertEqual(try operations.addOperator("+"), "+")
    }
-   // DIVIDE TEST
-   func testGivenTextIs30_WhenIncrementingDivide5_ThenTotalIs6() {
-      setNewNumber(3)
-      setNewNumber(0)
+   // AddOperator FALSE TEST
+   func testGivenTextIs5_WhenIncrementingPlusPlus_ThenCanAddOperatorIsFalse() {
+      //Given
+      setNewNumber(5)
       //When
-      setOperatorValue("÷")
+      setOperatorValue("+")
+      setOperatorValue("+")
+      // Then
+      XCTAssertEqual(operations.canAddOperator, false)
+   }
+   // AddOperator ELSE FALSE TEST
+   func testGivenTextIs5_WhenIncrementingPlusEqual_ThenCanAddOperatorIsFalse() {
+      //Given
+      setNewNumber(5)
+      //When
+      setOperatorValue("+")
+      setOperatorValue("=")
+      // Then
+      XCTAssertEqual(operations.canAddOperator, false)
+   }
+   // MARK: - ERROR THROWS TESTS
+   // AddOperator THROW TEST
+   func testGivenTextIs5_WhenIncrementingPlusEqual_ThenThrowWrongExpression() {
+      //Given
+      setNewNumber(5)
+      //When
+      setOperatorValue("+")
+      // Then
+      XCTAssertThrowsError(try operations.addOperator("-")) { (error) -> Void in
+         XCTAssertEqual(error as? Operations.AlertErrors,
+                        Operations.AlertErrors.wrongExpression)
+      }
+   }
+   // isExpressionCorrect THROW TEST
+   func testGivenTextIsNil_WhenIncrementingEqual_ThenThrowNewCalcul() {
+      //Given
+      // When
+      // Then
+      XCTAssertThrowsError(try operations.isExpressionCorrect()) { (error) -> Void in
+         XCTAssertEqual(error as? Operations.AlertErrors,
+                        Operations.AlertErrors.newCalcul)
+      }
+   }
+   // isExpressionCorrect THROW TEST
+   func testGivenTextIs5_WhenIncrementingPlus_ThenThrowEnterCorrectExpression() {
+      //Given
+       setNewNumber(5)
+      //When
+      setOperatorValue("+")
+      // Then
+      XCTAssertThrowsError(try operations.isExpressionCorrect()) { (error) -> Void in
+         XCTAssertEqual(error as? Operations.AlertErrors,
+                        Operations.AlertErrors.enterCorrectExpression)
+      }
+   }
+   // isExpression don't trhow error TEST
+   func testGivenTextIs5_WhenIncrementingPlusPlus_ThenIsExpressionCorrectDontThrowError() {
+      //Given
+      setNewNumber(5)
+      setOperatorValue("+")
+      //When
       setNewNumber(5)
       // Then
-      XCTAssertEqual(operations.calculateTotal(), 6)
+      XCTAssertNoThrow(try operations.isExpressionCorrect())
    }
-   // FLOAT TEST
-   func testGivenTextIs50_WhenIncrementingDivide63_ThenTotalIsFloat() {
-      setNewNumber(5)
-      setNewNumber(0)
+   // MARK: - MESSAGES ERRORS TESTS
+   // ERROR : newCalcul TEST
+   func testGivenTextIsNil_WhenIncrementingEqual_ThenErrorIsNewCalcul() {
+      //Given
       //When
-      setOperatorValue("÷")
-      setNewNumber(63)
+      setOperatorValue("=")
       // Then
-      XCTAssertEqual(operations.calculateTotal(), 0.7936508)
+      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Démarrez un nouveau calcul !")
    }
-
+   // ERROR : enterCorrectExpression TEST
+   func testGivenTextIs7_WhenIncrementingPlusEqual_ThenErrorIsEnterCorrectExpression() {
+      //Given
+      setNewNumber(7)
+      //When
+      setOperatorValue("+")
+      setOperatorValue("=")
+      // Then
+      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Entrez une expression correcte !")
+   }
+   // ERROR : wrongExpression TEST
+   func testGivenTextIs9_WhenIncrementingPlusMinus_ThenErrorIsWrongExpression() {
+      //Given
+      setNewNumber(9)
+      //When
+      setOperatorValue("+")
+      setOperatorValue("-")
+      // Then
+      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Expression incorrecte !")
+   }
+   // MARK: - CLEAR FUNCTION TEST
+   // Clear functionTEST
+   func testGivenTextIs5Plus75_WhenIncrementingEqualPlusCLEAR_ThenSetToDefault() {
+      //Given
+      setNewNumber(5)
+      setOperatorValue("+")
+      setNewNumber(5)
+      //When
+      setOperatorValue("=")
+      operations.clear()
+      // Then
+      XCTAssertEqual([String()], [""], "0")
+   }
 }

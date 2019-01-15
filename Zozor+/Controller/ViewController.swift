@@ -19,7 +19,8 @@ class ViewController: UIViewController {
    // Adding number on display to calculate
    @IBAction func tappedNumberButton(_ sender: UIButton) {
       for (nmbr, numberButton) in numberButtons.enumerated() where sender == numberButton {
-         textView.text = "\(operations.addNewNumber(nmbr))"
+         textView.text += "\(operations.addNewNumber(nmbr))"
+         updateDisplay()
       }
    }
    // Adding operators
@@ -29,63 +30,49 @@ class ViewController: UIViewController {
    @IBAction func minus(_ sender: UIButton) {
       operation(operatorSymbol: "-", on: sender)
    }
-   @IBAction func divide(_ sender: UIButton) {
-      operation(operatorSymbol: "÷", on: sender)
-   }
-   @IBAction func mutliply(_ sender: UIButton) {
-      operation(operatorSymbol: "×", on: sender)
+   // Calculate operators
+   @IBAction func equal(_ sender: UIButton) {
+      do {
+         try operations.isExpressionCorrect()
+         textView.text = "\(try operations.calculateTotal())"
+      } catch Operations.AlertErrors.newCalcul {
+         alert(with: "Zéro!", message: "Démarrez un nouveau calcul !")
+      } catch {
+         alert(with: "Zéro!", message: "Entrez une expression correcte !")
+      }
    }
    // Reset display to 0
    @IBAction func reset(_ sender: UIButton) {
+      operations.clear()
       textView.text = "0"
-   }
-   // Calculate operators
-   @IBAction func equal(_ sender: UIButton) {
-      if !isExpressionCorrect {
-         return
-      }
-      textView.text = "\(operations.calculateTotal())"
    }
    // MARK: - Methods
    func operation(operatorSymbol: String, on button: UIButton) {
-      if canAddOperator {
-         operations.operators.append(operatorSymbol)
-         operations.stringNumbers.append("")
-         textView.text = "\(operations.updateDisplay())"
+      do {
+         textView.text = "\(try operations.addOperator(operatorSymbol))"
+         updateDisplay()
+      } catch {
+         alert(with: "Zéro!", message: "Expression incorrecte !")
       }
    }
-}
-
-extension ViewController {
-   // Allerts properties
-   var isExpressionCorrect: Bool {
-      if let stringNumber = operations.stringNumbers.last {
-         if stringNumber.isEmpty {
-            if operations.stringNumbers.count == 1 {
-               let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !",
-                                               preferredStyle: .alert)
-               alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-               self.present(alertVC, animated: true, completion: nil)
-            } else {
-               let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !",
-                                               preferredStyle: .alert)
-               alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-               self.present(alertVC, animated: true, completion: nil)
-            }
-            return false
-         }
-      }
-      return true
+   // Alert general function
+   func alert(with title: String, message: String) {
+      let alertVC = UIAlertController(title: title, message: message,
+                                      preferredStyle: .alert)
+      alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+      self.present(alertVC, animated: true, completion: nil)
    }
-   var canAddOperator: Bool {
-      if let stringNumber = operations.stringNumbers.last {
-         if stringNumber.isEmpty {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Expression incorrecte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-            return false
+   // Getting string to update the calculator display
+   func updateDisplay() {
+      var text = ""
+      for (ind, stringNumber) in operations.stringNumbers.enumerated() {
+         // Add operator
+         if ind > 0 {
+            text += operations.operators[ind]
          }
+         // Add number
+         text += stringNumber
       }
-      return true
+      textView.text = text
    }
 }

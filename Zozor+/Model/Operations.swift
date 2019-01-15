@@ -10,52 +10,73 @@ import Foundation
 
 class Operations {
    // MARK: - PROPERTIES
-   var stringNumbers = [String()]
+   var style = AlertErrors.newCalcul
+   var stringNumbers: [String] = [""]
    var operators = ["+"]
-   var index = 0
+   var index: Int = 0
+   var lastResult: Float = 0
+   var canAddOperator: Bool {
+      if let stringNumber = stringNumbers.last {
+         if stringNumber.isEmpty {
+            return false
+         }
+      }
+      return true
+   }
+   // Enum ERRORS
+   enum AlertErrors: Error {
+      case newCalcul, enterCorrectExpression, wrongExpression
+   }
    // MARK: - METHODS
+   // Error trhow guard function
    // operations
-   func calculateTotal() -> Float {
+   func calculateTotal() throws -> Float {
       var total: Float = 0
-      for (opr, stringNumber) in stringNumbers.enumerated() {
+      for (ind, stringNumber) in stringNumbers.enumerated() {
          if let number = Float(stringNumber) {
-            if operators[opr] == "+" {
+            if operators[ind] == "+" {
                total += number
-            } else if operators[opr] == "-" {
+            }
+            if operators[ind] == "-" {
                total -= number
-            } else if operators[opr] == "÷" {
-               total /= number
-            } else if operators[opr] == "×" {
-               total *= number
             }
          }
       }
-      clear()
       return total
    }
    // Adding new number to the operant
-   func addNewNumber(_ newNumber: Int) -> String {
+   func addNewNumber(_ newNumber: Int) -> Int {
       if let stringNumber = stringNumbers.last {
          var stringNumberMutable = stringNumber
          stringNumberMutable += "\(newNumber)"
          stringNumbers[stringNumbers.count-1] = stringNumberMutable
       }
-      return "\(updateDisplay())"
+      return newNumber
    }
-   // Getting string to update the calculator display
-   func updateDisplay() -> String {
-      var text = ""
-      for (opr, stringNumber) in stringNumbers.enumerated() {
-         // Add operator
-         if opr > 0 {
-            text += operators[opr]
-         }
-         // Add number
-         text += stringNumber
+   // Adding new operator
+   func addOperator(_ newOperator: String) throws -> String {
+      // Checking if there is no 2 or more operators tapped 
+      guard canAddOperator else {
+         throw AlertErrors.wrongExpression
       }
-      return text
+      operators.append(newOperator)
+      stringNumbers.append("")
+      return newOperator
    }
-   // Clearing the display 
+   // Checking if there is no errors such like 8 x = or = at the beginning
+   func isExpressionCorrect() throws {
+      if let stringNumber = stringNumbers.last {
+         if stringNumber.isEmpty {
+            if stringNumbers.count == 1 {
+               throw AlertErrors.newCalcul
+            } else {
+               throw AlertErrors.enterCorrectExpression
+            }
+         }
+      }
+      return
+   }
+   // Clearing the display
    func clear() {
       stringNumbers = [String()]
       operators = ["+"]
