@@ -15,6 +15,7 @@ class ViewController: UIViewController {
    // MARK: - Outlets
    @IBOutlet weak var textView: UITextView!
    @IBOutlet var numberButtons: [UIButton]!
+   @IBOutlet var operatorButtons: [UIButton]!
    // MARK: - Action
    // Adding number on display to calculate
    @IBAction func tappedNumberButton(_ sender: UIButton) {

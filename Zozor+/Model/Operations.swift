@@ -28,7 +28,6 @@ class Operations {
       case newCalcul, enterCorrectExpression, wrongExpression
    }
    // MARK: - METHODS
-   // Error trhow guard function
    // operations
    func calculateTotal() throws -> Float {
       var total: Float = 0

@@ -146,35 +146,6 @@ class OperationsTestCase: XCTestCase {
       // Then
       XCTAssertNoThrow(try operations.isExpressionCorrect())
    }
-   // MARK: - MESSAGES ERRORS TESTS
-   // ERROR : newCalcul TEST
-   func testGivenTextIsNil_WhenIncrementingEqual_ThenErrorIsNewCalcul() {
-      //Given
-      //When
-      setOperatorValue("=")
-      // Then
-      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Démarrez un nouveau calcul !")
-   }
-   // ERROR : enterCorrectExpression TEST
-   func testGivenTextIs7_WhenIncrementingPlusEqual_ThenErrorIsEnterCorrectExpression() {
-      //Given
-      setNewNumber(7)
-      //When
-      setOperatorValue("+")
-      setOperatorValue("=")
-      // Then
-      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Entrez une expression correcte !")
-   }
-   // ERROR : wrongExpression TEST
-   func testGivenTextIs9_WhenIncrementingPlusMinus_ThenErrorIsWrongExpression() {
-      //Given
-      setNewNumber(9)
-      //When
-      setOperatorValue("+")
-      setOperatorValue("-")
-      // Then
-      XCTAssertThrowsError(try operations.isExpressionCorrect(), "Expression incorrecte !")
-   }
    // MARK: - CLEAR FUNCTION TEST
    // Clear functionTEST
    func testGivenTextIs5Plus75_WhenIncrementingEqualPlusCLEAR_ThenSetToDefault() {
